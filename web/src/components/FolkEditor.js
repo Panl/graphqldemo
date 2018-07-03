@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './FolkEditor.css'
+import { Mutation } from "react-apollo";
+import { CREATE_POEM } from '../gql/Mutation';
 
 class FolkEditor extends Component {
 
@@ -20,7 +22,12 @@ class FolkEditor extends Component {
     }
 
     saveClick = () => {
-
+        this.props.doMutate && this.props.doMutate({
+            variables: {
+                name: this.state.folkName,
+                content: this.state.folkContent,
+            }
+        })
     }
 
     render = () => {
@@ -34,4 +41,15 @@ class FolkEditor extends Component {
     }
 }
 
-export default FolkEditor
+
+
+export const FolkEditorMutation = ()=>{
+   return(
+        <Mutation mutation={CREATE_POEM}>
+            {(doMutate, {data })=>{
+                console.log('pl====', data)
+               return (<FolkEditor doMutate={doMutate}/>)
+            }}
+        </Mutation>
+    )
+}

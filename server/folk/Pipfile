@@ -13,6 +13,7 @@ graphene = "==2.1.2"
 ipython = "*"
 pymysql = "*"
 alembic = "*"
+flask-cors = "*"
 
 [dev-packages]
 
