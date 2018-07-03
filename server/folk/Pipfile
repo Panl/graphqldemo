@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "==1.0.2"
+sqlalchemy = "==1.2.9"
+pylint = "==1.9.2"
+graphene-sqlalchemy = "==2.0.0"
+flask-graphql = "==1.4.1"
+graphene = "==2.1.2"
+ipython = "*"
+pymysql = "*"
+alembic = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
