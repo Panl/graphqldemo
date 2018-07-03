@@ -20,5 +20,6 @@ class Query(graphene.ObjectType):
     def resolve_hello(self, info):
         return 'Hello Graphql!'
     
-    def resolve_poems(self, info, id):
+    def resolve_poem(self, info, id):
+        print('pl---', id)
         return PoemLogic.get_poem_by_id(id)

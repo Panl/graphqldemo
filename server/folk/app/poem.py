@@ -8,9 +8,9 @@ from folk.db.base import session
 class PoemLogic(object):
 
     @classmethod
-    def create_single_poem(cls, title, content):
+    def create_single_poem(cls, name, content):
         new_poem = Poem()
-        new_poem.title = title
+        new_poem.name = name
         new_poem.content = content
         new_poem.time_created = time.time()
         session.add(new_poem)
@@ -19,14 +19,15 @@ class PoemLogic(object):
 
 
     @classmethod
-    def update_poem(cls, id, title, content):
-        poem = query(Poem).filter(Poem.id == id).first()
-        poem.title = title
+    def update_poem(cls, id, name, content):
+        poem = session.query(Poem).filter(Poem.id == id).first()
+        poem.name = name
         poem.content = content
         session.add(poem)
         session.commit()
         return poem
-    
+
+
     @classmethod
     def get_poem_by_id(cls, id):
-        return query(Poem).filter(Poem.id == id).first()
+        return session.query(Poem).filter(Poem.id == id).first()

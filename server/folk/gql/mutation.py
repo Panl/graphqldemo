@@ -9,19 +9,19 @@ from folk.gql.query import PoemQuery
 
 class CreatePoem(graphene.Mutation):
     class Arguments:
-        title = graphene.String()
+        name = graphene.String()
         content = graphene.String()
 
     poem = graphene.Field(lambda: PoemQuery)
 
     @classmethod
-    def _create_poem(cls, title, content):
-        new_poem = PoemLogic.create_single_poem(title, content)
+    def _create_poem(cls, name, content):
+        new_poem = PoemLogic.create_single_poem(name, content)
         return new_poem
 
 
-    def mutate(self, info, title, content):
-        new_poem = CreatePoem._create_poem(title, content)
+    def mutate(self, info, name, content):
+        new_poem = CreatePoem._create_poem(name, content)
         return CreatePoem(poem=new_poem)
 
 
