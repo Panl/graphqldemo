@@ -1,0 +1,29 @@
+.folk-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+  .edit-title {
+    width: 70%;
+    height: 40px;
+    margin-top: 20px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 8px;
+  }
+  .edit-content {
+    width: 70%;
+    height: 240px;
+    margin-top: 30px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 8px;
+  }
+  .save-btn {
+    width: 20%;
+    border: 1px solid #333;
+    border-radius: 6px;
+    height: 40px;
+    margin-top: 40px;
+  }

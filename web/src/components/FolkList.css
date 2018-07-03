@@ -1,0 +1,6 @@
+.list-bar {
+    display: flex;
+    width: 240px;
+    background-color: antiquewhite;
+    height: 1000px;
+}
