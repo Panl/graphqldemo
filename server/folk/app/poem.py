@@ -31,3 +31,8 @@ class PoemLogic(object):
     @classmethod
     def get_poem_by_id(cls, id):
         return session.query(Poem).filter(Poem.id == id).first()
+
+
+    @classmethod
+    def get_poems(cls, offset):
+        return session.query(Poem)
