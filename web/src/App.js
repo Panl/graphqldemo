@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import FolkList from './components/FolkList';
-import {FolkEditorMutation} from './components/FolkEditor';
+import PoemList from './components/PoemList';
+import {PoemEditorMutation} from './components/PoemEditor';
 import './App.css';
 import { ApolloProvider } from 'react-apollo';
 import client from "./conf/apollo";
+import { QUERY_POEM } from './gql/Query';
+import PoemDetail from './components/PoemDetail';
+
+
 class App extends Component {
+
   render() {
     return (
       <ApolloProvider client={client}>
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">Let's Folk</h1>
+            <h1 className="App-title">Write Poem</h1>
           </header>
           <div className="App-body">
-            <FolkList/>
-            <FolkEditorMutation/>
+            <PoemList/>
+            <PoemEditorMutation/>
           </div>
         </div>
       </ApolloProvider>

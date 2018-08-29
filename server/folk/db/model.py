@@ -9,7 +9,7 @@ class Poem(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
-    content = Column(JSON)
+    content = Column(String(256))
     author_id = Column(Integer)
     time_created = Column(Integer)
     time_removed = Column(Integer)

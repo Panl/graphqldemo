@@ -11,32 +11,22 @@ class PoemQuery(SQLAlchemyObjectType):
     class Meta:
         model = Poem
 
-class PoemsConnection(relay.Connection):
-    total_count = graphene.Int()
-    page_info = graphene.PageInfo()
-    next_offset = graphene.Int()
-
-    class Meta:
-        node = PoemQuery 
-
-class PoemFeed(graphene.ObjectType):
-    poems = relay.ConnectionField(PoemsConnection, offset=graphene.Int())
 
 
 class Query(graphene.ObjectType):
-
-    hello = graphene.String()
     
-    poem = graphene.Field(PoemQuery, id=graphene.ID())
+    poem = graphene.Field(PoemQuery, id=graphene.Int())
 
-    feed = graphene.Field(PoemFeed)
+    # feed = graphene.Field(PoemFeed)
 
-    def resolve_hello(self, info):
-        return 'Hello Graphql!'
+    poem_list = graphene.List(PoemQuery)
     
     def resolve_poem(self, info, id):
         print('pl---', id)
         return PoemLogic.get_poem_by_id(id)
 
-    def resolve_feed(self, info):
-        return PoemFeed()
+    # def resolve_feed(self, info):
+    #     return PoemFeed()
+
+    def resolve_poem_list(self, info):
+        return PoemLogic.get_poems()

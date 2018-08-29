@@ -1,0 +1,9 @@
+.list-bar {
+    display: flex;
+    width: 300px;
+    background-color: honeydew;
+    height: 1000px;
+    padding: 24px;
+    align-items: center;
+    flex-direction: column;
+}

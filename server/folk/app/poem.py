@@ -34,5 +34,5 @@ class PoemLogic(object):
 
 
     @classmethod
-    def get_poems(cls, offset):
+    def get_poems(cls):
         return session.query(Poem)

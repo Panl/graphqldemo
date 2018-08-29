@@ -26,7 +26,7 @@ class CreatePoem(graphene.Mutation):
 
 class UpdatePoem(graphene.Mutation):
     class Arguments:
-        id = graphene.ID()
+        id = graphene.Int()
         name = graphene.String()
         content =graphene.String()
 
