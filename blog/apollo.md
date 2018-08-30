@@ -23,15 +23,19 @@ Apollo 是一个由社区驱动开发的 GraphQL client，容易理解，可拓�
 
 **新建一个 React App**
 
-`yarn global add create-react-app`
-
-`create-react-app web`
+```bash
+#!/bin/bash
+yarn global add create-react-app
+create-react-app web
+```
 
 **安装 Apollo**
 
-`cd web`
-
-`yarn add apollo-boost react-apollo graphql`
+```bash
+#!/bin/bash
+cd web
+yarn add apollo-boost react-apollo graphql
+```
 
 
 
@@ -51,8 +55,6 @@ Apollo 是一个由社区驱动开发的 GraphQL client，容易理解，可拓�
 
 
 ### 创建一个 Apollo Client
-
-
 
 ```js
 import ApolloClient from "apollo-boost"
@@ -116,7 +118,7 @@ client.query({
   "data": {
     "poem": {
       "name": "临江仙",
-      "content": "滚滚长江东逝水，\n浪花淘尽英雄。"
+      "content": "滚滚长江东逝水，\n浪花淘尽英雄。",
       "__typename": "PoemQuery"
     }
   }
@@ -127,9 +129,9 @@ client.query({
 
 
 
-### <Query/> & <Mutation/>
+### **Query** & **Mutation**
 
-为了更好的配合 React ， Apollo 提供了 <Query/> & <Mutation/> component，为了连接 React  Component 和 ApolloClient，我们需要在 App 的 root componet 外面包一层 <ApolloProvider/>:
+为了更好的配合 React ， Apollo 提供了 **Query** & **Mutation** component，为了连接 React  Component 和 ApolloClient，我们需要在 App 的 root componet 外面包一层 **ApolloProvider** :
 
 
 
@@ -154,7 +156,7 @@ class App extends Component {
 }
 ```
 
-接下来我们需要写一个 PoemDetail 页面，我们用  <Query/> 来请求数据，写法如下：
+接下来我们需要写一个 PoemDetail 页面，我们用 **Query** 来请求数据，写法如下：
 
 ```react
 import React, { Component } from 'react';
@@ -186,7 +188,7 @@ class PoemDetail extends Component {
 }
 ```
 
-从代码中可以看到，<Query/> 中我们传入了两个 props，和我们之前直接用 `clinet.query` 方法大致相同，<Query/> 只是把这个过程封装起来，而我们只需要根据返回的结果去处理自己的 UI 显示逻辑。当然,，<Query/>  被 render 的时候就开始请求数据了。除了 `loading`、 `error`、  `data` ，<Query/> 还提供了其他的 api : [Query API overview](https://www.apollographql.com/docs/react/essentials/queries.html#api)，这里就不赘述了。把 <PoemDetail/> 放在上面 root Component 的位置，运行我们的 demo 即可看到：
+从代码中可以看到，**Query** 中我们传入了两个 props，和我们之前直接用 `clinet.query` 方法大致相同，**Query** 只是把这个过程封装起来，而我们只需要根据返回的结果去处理自己的 UI 显示逻辑。当然, **Query**  被 render 的时候就开始请求数据了。除了 `loading`、 `error`、  `data` ，**Query** 还提供了其他的 API : [Query API overview](https://www.apollographql.com/docs/react/essentials/queries.html#api)，这里就不赘述了。把 **PoemDetail** 放在上面 root component 的位置，运行我们的 demo 即可看到：
 
 ![image-20180830113814675](image-web.png)
 
@@ -219,7 +221,7 @@ export const CREATE_POEM = gql`
 `
 ```
 
-接下来我们写一个 <PoemEditor/>：
+接下来我们写一个 **PoemEditor** ：
 
 
 
@@ -278,15 +280,15 @@ export const PoemEditorMutation = ()=>{
 }
 ```
 
-  <PoemEditor/> 接受一个 `doMutate` 的 prop， 在 <PoemEditor/> 外面包了一层 <Mutation/>， 和 <Query/> 一样，<Mutation/> 也是把 `client.mutate` 方法封装起来，并提供了一些 API 方便我们操作，与 <Query/> 不同的是，我们需要把自己调用 `doMutate` 方法去触发真正的 Mutation，正如我们上面的代码一样，我们把 `doMutate` 方法传给了 <PoemEditor/> 在 `保存` 按钮被点击的时候才去调用 `doMutate` ，这个时候才去和 Server 打交道，创建一个新的 poem。更多关于 <Mutation/> 的 API : [Mutation API overview](https://www.apollographql.com/docs/react/essentials/mutations.html#api)
+  **PoemEditor** 接受一个 `doMutate` 的 prop， 在 **PoemEditor** 外面包了一层 **Mutation**， 和 **Query** 一样，**Mutation** 也是把 `client.mutate` 方法封装起来，并提供了一些 API 方便我们操作，与 **Query** 不同的是，我们需要把自己调用 `doMutate` 方法去触发真正的 Mutation，正如我们上面的代码一样，我们把 `doMutate` 方法传给了 **PoemEditor** 在 `保存` 按钮被点击的时候才去调用 `doMutate` ，这个时候才去和 Server 打交道，创建一个新的 poem 。更多关于 **Mutation** 的 API : [Mutation API overview](https://www.apollographql.com/docs/react/essentials/mutations.html#api)
 
 
 
 ### Apollo Cache
 
-上面简单介绍了 <Query/> 和 <Mutation/> 的用法，接下来就要介绍用这两个 Component 带来的好处。在开发 app 的过程中，我们常常会遇到这样的情形，有一个列表展示了一些话题的信息，点击每一个话题会进入一个话题详情页，这个时候用户点赞或者评论都会改变这个话题的状态，我们就需要去更新列表中对应的话题的状态来保证数据的一致性。那么在 Apollo 中我们怎么去更新列表的状态呢？答案就是什么都不用做，只要我们用了 <Query/> 和 <Mutation/> ，Apollo 可以自己检测出某个数据的变化，并通知所有用到这个数据的地方更新 UI 。接下来用我们这个 Demo 举个简单的例子：
+上面简单介绍了 **Query** 和 **Mutation** 的用法，接下来就要介绍用这两个 Component 带来的好处。在开发 app 的过程中，我们常常会遇到这样的情形，有一个列表展示了一些话题的信息，点击每一个话题会进入一个话题详情页，这个时候用户点赞或者评论都会改变这个话题的状态，我们就需要去更新列表中对应的话题的状态来保证数据的一致性。那么在 Apollo 中我们怎么去更新列表的状态呢？答案就是什么都不用做，只要我们用了 **Query** 和 **Mutation** ，Apollo 可以自己检测出某个数据的变化，并通知所有用到这个数据的地方更新 UI 。接下来用我们这个 Demo 举个简单的例子：
 
-新添加一个  <PoemList/> ， Server 端相应的添加了一个 `poemList Query` 和 一个 `updatePoem Mutation`
+新添加一个 **PoemList** ， Server 端相应的添加了一个 `poemList Query` 和 一个 `updatePoem Mutation`
 
 
 
@@ -335,7 +337,7 @@ class PoemList extends Component {
 export default PoemList
 ```
 
-然后修改  <PoemEditor/>  将 Mutation 由 `CREATE_POEM` 换成 `UPDATE_POEM` 内容如下：
+然后修改 **PoemEditor** ，将 Mutation 由 `CREATE_POEM` 换成 `UPDATE_POEM` 内容如下：
 
 
 
@@ -353,7 +355,7 @@ export const UPDATE_POEM = gql`
 `
 ```
 
-为了方便，我们直接修改 `id  `为 1 的 poem，修改 <PoemEditor/> 中的 `saveClick` 方法，在 `variables` 中添加一个 `id` 参数：
+为了方便，我们直接修改 `id  `为 1 的 poem，修改 **PoemEditor** 中的 `saveClick` 方法，在 `variables` 中添加一个 `id` 参数：
 
 
 
@@ -369,9 +371,7 @@ saveClick = () => {
 }
 ```
 
-最后将这两个 Component 放到 App 里：
-
-
+最后将这两个 component 放到 App 里：
 
 ```react
 import React, { Component } from 'react';
@@ -415,7 +415,7 @@ export default App;
 
 既然 Apollo 自己就管理好了自己的 Cache ， 那我们能不能自己操作 Apollo 的 Cache 呢？当然可以！还是以 demo 为例，假如我们新建了一个 poem ，但是我们什么都不做的话，我们的 poem list 里面是不会有我们新加的 poem 的，这个时候我们有两种办法，一种是重新 Query 一遍 poem list，另一种就是将新加的 poem 写到 cache 里面。第一种就不说了，我们来用第二种方法实现我们的需求。
 
-首先还是要将 <PoemEditor/> 里面 Mutation 改回 `CREATE_POEM` ，相应的 `saveClick` 方法也要改回去。然后在 <Mutation/> 里面加上 `update` 参数：
+首先还是要将 **PoemEditor** 里面 Mutation 改回 `CREATE_POEM` ，相应的 `saveClick` 方法也要改回去。然后在 **Mutation** 里面加上 `update` 参数：
 
 
 
@@ -442,7 +442,7 @@ export const PoemEditorMutation = ()=>{
 }
 ```
 
-`update` 方法接受两个参数，一个是 Apollo Cache 的实例，一个是本次 Mutation 返回的结果，在 _mutateUpdate 方法里面， 我们先用 `cache.readQuery` 把 `poemList` 取出来，然后把新建出来的 `poem` 插到最前面，最后用 `cache.writeQuery` 把新的 `poemList` 写回到 cache 里面，这样我们就完成了 <PoemList/> 的更新。更多关于 cache 的内容：[Direct Cache Access](https://www.apollographql.com/docs/react/advanced/caching.html#direct) ，运行起来就是这个样子滴：
+`update` 方法接受两个参数，一个是 Apollo Cache 的实例，一个是本次 Mutation 返回的结果，在 _mutateUpdate 方法里面， 我们先用 `cache.readQuery` 把 `poemList` 取出来，然后把新建出来的 `poem` 插到最前面，最后用 `cache.writeQuery` 把新的 `poemList` 写回到 cache 里面，这样我们就完成了 **PoemList** 的更新。更多关于 cache 的内容：[Direct Cache Access](https://www.apollographql.com/docs/react/advanced/caching.html#direct) ，运行起来就是这个样子滴：
 
 ![write-cache](write-cache.gif)
 
@@ -459,6 +459,3 @@ export const PoemEditorMutation = ()=>{
 ### 遇到的一些坑？
 
 ???
-
-
-
