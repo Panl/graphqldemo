@@ -18,10 +18,11 @@ class App extends Component {
           <header className="App-header">
             <h1 className="App-title">Write Poem</h1>
           </header>
-          <div className="App-body">
+          {/**<PoemDetail/>*/} 
+          {<div className="App-body">
             <PoemList/>
             <PoemEditorMutation/>
-          </div>
+          </div>}
         </div>
       </ApolloProvider>
     );

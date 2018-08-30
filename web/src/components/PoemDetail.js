@@ -10,7 +10,7 @@ class PoemDetail extends Component {
                 {({ loading, error, data }) => {
                     if (loading) return <div>Fetching</div>
                     if (error) return <div>Error</div>
-            
+                    console.log('-----', data);
                     const name = data.poem.name;
                     const content = data.poem.content;
             
