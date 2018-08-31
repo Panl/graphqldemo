@@ -422,4 +422,6 @@ export const PoemEditorMutation = ()=>{
 
 最后，谈一谈使用 GraphQL 带来的一些好处。开发客户端，我们常常需要去实现一个非常复杂的 UI ，往往我们需要发送多个请求才能把整个页面的数据全部加载完毕。我们也常常遇到，服务器的返回结果中少了某个字段或者多了一堆我们不需要的字段，开发移动端的 app ，少了某个字段甚至会导致 app crash ，这些都是我们不想看到的。使用 GraphQL 会能够很好的解决这些问题，客户端只需要根据 UI 定义好 Query string ，返回的就是我们想要的结果。对于某些小的 UI 改动，完全不需要去修改 server ，在 Query string 中添加或者减少相应的字段即可，灵活方便。
 
+对于文章中有描述不当的地方，欢迎批评指正。
+
 完整的代码点击 [graphqldemo](https://github.com/Panl/graphqldemo) : 包扩了 Web 和 Server 端的实现。
