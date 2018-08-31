@@ -1,6 +1,6 @@
 # 使用 Apollo Client 快速构建一个支持 GraphQL 的 Web App
 
-这篇文章主要介绍 GraphQL 在 Client 的使用，为了方便，本文会直接使用 React 创建一个 Web demo 去介绍 Apollo 在 React 中的使用方法，当然在 ReactNative 中用法几乎一模一样。[Apollo Client](https://www.apollographql.com/client) 是一个 GraphQL Client Library ，Apollo Clinet (以下简称 Apollo) 可以让我们很方便的去和 GraphQL server 通信。
+这篇文章主要介绍 GraphQL 在 Client 的使用，为了方便，本文会直接使用 React 创建一个 Web demo 去介绍 Apollo 在 React 中的使用方法，当然在 ReactNative 中用法几乎一模一样。[Apollo Client](https://www.apollographql.com/client) 是一个 GraphQL Client Library ，Apollo Clinet (以下简称 Apollo) 可以让我们很方便的去和 GraphQL server 通信。
 
 ## 为什么要使用 GraphQL Client Library
 
