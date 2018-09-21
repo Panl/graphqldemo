@@ -1,6 +1,4 @@
-# 使用 Apollo Client 快速构建一个支持 GraphQL 的 Web App
-
-这篇文章主要介绍 GraphQL 在 Client 的使用，为了方便，本文会直接使用 React 创建一个 Web demo 去介绍 Apollo 在 React 中的使用方法，当然在 ReactNative 中用法几乎一模一样。[Apollo Client](https://www.apollographql.com/client) 是一个 GraphQL Client Library ，Apollo Clinet (以下简称 Apollo) 可以让我们很方便的去和 GraphQL server 通信。
+这篇文章主要介绍 GraphQL 在 Client 的使用，为了方便，本文会直接使用 React 创建一个 Web demo 去介绍 Apollo 在 React 中的使用方法，当然在 ReactNative 中用法几乎一模一样。[Apollo Client](https://www.apollographql.com/client) 是一个 GraphQL Client Library ，Apollo Client (以下简称 Apollo) 可以让我们很方便的去和 GraphQL server 通信。
 
 ## 为什么要使用 GraphQL Client Library
 
@@ -11,7 +9,7 @@
 - 根据定义的 Schema 构建相应的 Query 和 Mutation
 - 绑定 UI ，当数据发生变化时刷新 UI
 
-我们比较了 [Apollo](https://www.apollographql.com/client/) 和 [Relay](https://facebook.github.io/relay/) ，最终选择了在项目中使用 Apollo ，Relay 是由 Facebook 开发的开源的 GraphQL Client ， 功能丰富并且做了很多性能优化。由于是一个大而全的库，学习难度比较大，而且 Relay 对于我们的 App 有点过于复杂，所以最终选择了 Apollo 。
+我们比较了 [Apollo](https://www.apollographql.com/client/) 和 [Relay](https://facebook.github.io/relay/) ，最终选择了在项目中使用 Apollo 。Relay 是由 Facebook 开发的开源的 GraphQL Client ， 功能丰富并且做了很多性能优化，由于是一个大而全的库，学习难度比较大，而且 Relay 对于我们的 App 有点过于复杂，所以最终选择了 Apollo 。
 
 Apollo 是一个由社区驱动开发的 GraphQL client，容易理解，可拓展性强，功能强大，可以在主流的开发平台上面使用。JavaScript 的版本可以在 React ，Angular ， Ember ，Vue 等主流的 Web 开发框架使用。Apollo 也提供了 Android 和 iOS 的版本。除此之外，Apollo 解决了我们上面提到的那些问题， Apollo 理解起来也比较简单，容易上手。
 
@@ -60,11 +58,11 @@ export default client
 
 利用 `apollo-boost` 提供的方法可以快速构建一个 ApolloClient，接下来我们就可以用这个 Client 去和 GraphQL server 通信了，Apollo 提供了多种方式与服务端通信，如果你只需要一个与服务端通信的 Client，你可以直接使用 ApolloClient 提供的 `query` 方法请求数据。
 
-下图展示了我们的 GraphQL server 提供的可以查询的字段，关于如何搭建 GraphQL server 可以看我们之前的文章，这里就不赘述了。
+下图展示了我们的 GraphQL server 提供的可以查询的字段，关于如何搭建 GraphQL server 可以看我们之前的文章 : [用 GraphQL 快速搭建服务端 API](https://tech.glowing.com/cn/use-graphql-build-api/)，这里就不赘述了。
 
-![image-20180827134648135](image-1.png)
+![](https://s3.cn-north-1.amazonaws.com.cn/glowstatic/cn_website/uploaded/images/a50c91d5-6083-42a0-b3a8-b51cf0f1a2a2.png)
 
-![image-20180827134753302](image-2.png)
+![](https://s3.cn-north-1.amazonaws.com.cn/glowstatic/cn_website/uploaded/images/762191f9-6517-45b2-8577-4cfddf653f50.png)
 
 从图中可以看出 server 的 Query 里面提供了 `poem` 字段，需要一个 Int 类型的参数 `id` ，`peom` 的类型是 `PoemQuery` ，`PoemQuery` 里面有一些字段可以查询。现在我们要用 ApolloClient 查询一个 `id` 为 1 的 `poem`：
 
@@ -113,12 +111,12 @@ client的 `query` 方法把 `QUERY_POEM` 和我们提供的 `id` 参数组装在
 }
 ```
 
-到这里我们就完成了一次数据的 Query， `__typename` 字段并没有出现在我们的 Query string 中，这是 ApolloClient 的默认行为 ，主要用于数据的 [Normalization](https://www.apollographql.com/docs/react/advanced/caching.html#normalization) 。更多的关于 `query` 的参数点击[这里](https://www.apollographql.com/docs/react/api/apollo-client.html#ApolloClient.query)
+到这里我们就完成了一次数据的 Query， `__typename` 字段并没有出现在我们的 Query string 中，这是 ApolloClient 的默认行为 ，主要用于数据的 [Normalization](https://www.apollographql.com/docs/react/advanced/caching.html#normalization) 。更多的关于 `query` 的参数点击[这里](https://www.apollographql.com/docs/react/api/apollo-client.html#ApolloClient.query)，当然 ApolloClient 也提供了 `mutate` 方法让我们直接修改 server 的数据， 这里就不赘述了，[ApolloClient.mutate API](https://www.apollographql.com/docs/react/api/apollo-client.html#ApolloClient.mutate) 。
 
 
 ## **Query** & **Mutation** Component
 
-为了更好的配合 React ，Apollo 提供了 **Query** & **Mutation** component，为了连接 React Component 和 ApolloClient，我们需要在 App 的 root componet 外面包一层 **ApolloProvider** :
+为了更好的配合 React ，Apollo 提供了另外一种 query 和 mutate 数据的方式 : **Query** & **Mutation** component，为了连接 React Component 和 ApolloClient，我们需要在 App 的 root component 外面包一层 **ApolloProvider** :
 
 ```react
 import { ApolloProvider } from 'react-apollo';
@@ -173,15 +171,15 @@ class PoemDetail extends Component {
 
 从代码中可以看到，**Query** 中我们传入了两个 props，和我们之前直接用 `clinet.query` 方法大致相同，**Query** 只是把这个过程封装起来，而我们只需要根据返回的结果去处理自己的 UI 显示逻辑。当然, **Query**  被 render 的时候就开始请求数据了。除了 `loading`、 `error`、  `data` ，**Query** 还提供了其他的 API : [Query API overview](https://www.apollographql.com/docs/react/essentials/queries.html#api)，这里就不赘述了。把 **PoemDetail** 放在上面 root component 的位置，运行我们的 demo 即可看到：
 
-![image-20180830113814675](image-web.png)
+![image-20180830113814675](https://s3.cn-north-1.amazonaws.com.cn/glowstatic/cn_website/uploaded/images/f3b70347-455c-47b0-bc41-a7e9656ac9a8.png)
 
 那么如何在 GraphQL server 上创建和更新数据呢？接下来我们讲讲 **Mutation**
 
-![image-20180829110358445](image-mutation.png)
+![image-20180829110358445](https://s3.cn-north-1.amazonaws.com.cn/glowstatic/cn_website/uploaded/images/602e7c45-47a9-4b25-a279-6b8e4e9a7789.png)
 
-![image-20180829110509349](image-create-poem.png)
+![image-20180829110509349](https://s3.cn-north-1.amazonaws.com.cn/glowstatic/cn_website/uploaded/images/ed20cbdb-015d-4454-b6b4-f5f5a77b473f.png)
 
-从图中可以看到，我们的 server 上面提供了 createPoem mutation，在 createPoem 里面有一个 PoemQuery 类型的字段，所以，先定义一个 Mutation string templete :
+从图中可以看到，我们的 server 上面提供了 createPoem mutation，createPoem 需要我们提供两个参数 : `name` & `content` ，在 createPoem 里面有一个 PoemQuery 类型的字段 `poem`，所以可以这样定义一个 Mutation string templete :
 
 ```js
 import gql from "graphql-tag"
@@ -255,7 +253,7 @@ export const PoemEditorMutation = ()=>{
 }
 ```
 
-**PoemEditor** 接受一个 `doMutate` 的 prop ，在 **PoemEditor** 外面包了一层 **Mutation**， 和 **Query** 一样，**Mutation** 也是把 `client.mutate` 方法封装起来，并提供了一些 API 方便我们操作，与 **Query** 不同的是，我们需要把自己调用 `doMutate` 方法去触发真正的 Mutation，正如我们上面的代码一样，我们把 `doMutate` 方法传给了 **PoemEditor** 在 `保存` 按钮被点击的时候才去调用 `doMutate` ，这个时候才去和 Server 打交道，创建一个新的 poem 。更多关于 **Mutation** 的 API : [Mutation API overview](https://www.apollographql.com/docs/react/essentials/mutations.html#api)
+**PoemEditor** 接受一个 `doMutate` 的 prop ，在 **PoemEditor** 外面包了一层 **Mutation**， 和 **Query** 一样，**Mutation** 也是把 `client.mutate` 方法封装起来，并提供了一些 API 方便我们操作，与 **Query** 不同的是，我们需要把自己调用 `doMutate` 方法去触发真正的 Mutation，正如我们上面的代码一样，我们把 `doMutate` 方法传给了 **PoemEditor** 在 `保存` 按钮被点击的时候才去调用 `doMutate` ，这个时候才去和 Server 打交道，创建一个新的 poem ，到这个里我们就完成了一个简单的 mutate 操作。更多关于 **Mutation** 的 API : [Mutation API overview](https://www.apollographql.com/docs/react/essentials/mutations.html#api)
 
 ## Apollo Cache
 
@@ -375,7 +373,7 @@ export default App;
 
 运行结果如图：
 
-![mutate](mutate.gif)
+![mutate](https://s3.cn-north-1.amazonaws.com.cn/glowstaticdev/zx/mutate.gif)
 
 我们可以看到，当我们修改了 name 之后， 列表里的 name 也跟着变了，我们的代码里也没有做什么额外的操作，这就是 Apollo 的便利之处。Apollo 在获取到 server 的数据之后会先 Normalize 数据，然后存到 `apollo-cache-inmemory` 中，通过 `react-apollo` 中的 Component 将数据和 UI 绑定起来，这样对于共享同一数据源的 UI Component 来说就能保持一致性。
 
@@ -408,7 +406,7 @@ export const PoemEditorMutation = ()=>{
 
 `update` 方法接受两个参数，一个是 Apollo Cache 的实例 ，一个是本次 Mutation 返回的结果 ，在 _mutateUpdate 方法里面， 我们先用 `cache.readQuery` 把 `poemList` 取出来 ，然后把新建出来的 `poem` 插到最前面，最后用 `cache.writeQuery` 把新的 `poemList` 写回到 cache 里面，这样我们就完成了 **PoemList** 的更新。更多关于 cache 的内容：[Direct Cache Access](https://www.apollographql.com/docs/react/advanced/caching.html#direct) ，运行起来就是这个样子的 ：
 
-![write-cache](write-cache.gif)
+![write-cache](https://s3.cn-north-1.amazonaws.com.cn/glowstaticdev/zx/write-cache.gif)
 
 到这里我们已经用 Apollo + React 写出了一个简单的记录诗句的 web app。
 
@@ -420,7 +418,7 @@ export const PoemEditorMutation = ()=>{
 
 本文介绍了 Apollo 在 React 中的基础用法，从零开始构建了一个支持查询数据，创建数据，更新数据的 Web App , 虽然比较简陋，也基本涵盖了 app 开发的常用操作。介绍了 **Query** 和 **Mutation** componet 的基本用法，熟练的掌握这两个 componet 的用法，可以极大地简化我们的开发工作。更多高级的用法，可以去查询官方文档。
 
-最后，谈一谈使用 GraphQL 带来的一些好处。开发客户端，我们常常需要去实现一个非常复杂的 UI ，往往我们需要发送多个请求才能把整个页面的数据全部加载完毕。我们也常常遇到，服务器的返回结果中少了某个字段或者多了一堆我们不需要的字段，开发移动端的 app ，少了某个字段甚至会导致 app crash ，这些都是我们不想看到的。使用 GraphQL 会能够很好的解决这些问题，客户端只需要根据 UI 定义好 Query string ，返回的就是我们想要的结果。对于某些小的 UI 改动，完全不需要去修改 server ，在 Query string 中添加或者减少相应的字段即可，灵活方便。
+最后，谈一谈使用 GraphQL 带来的一些好处。开发客户端，我们常常需要去实现一个非常复杂的 UI ，往往我们需要发送多个请求才能把整个页面的数据全部加载完毕。我们也常常遇到，服务器的返回结果中少了某个字段或者多了一堆我们不需要的字段。开发移动端的 app ，少了某个字段甚至会导致 app crash ，这些都是我们不想看到的。使用 GraphQL 能够很好的解决这些问题，客户端只需要根据 UI 定义好 Query string ，返回的就是我们想要的结果。对于某些小的 UI 改动，完全不需要去修改 server ，在 Query string 中添加或者减少相应的字段即可，灵活方便。
 
 对于文章中有描述不当的地方，欢迎批评指正。
 

@@ -1,0 +1,1 @@
+a graphql demo app include server(python) and web(react)
